@@ -15,18 +15,9 @@ struct ListingItemView: View {
         VStack{
             // images
             
-            TabView{
-                ForEach(images, id: \.self){image in
-                    Image(image)
-                        .resizable()
-                        .scaledToFill()
-                }
-                
-            }
-            .frame(height: 320)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .tabViewStyle(.page)
-                
+            ListingImageCarouselView()
+                .frame(height: 320)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             
             
             // listing details
@@ -36,6 +27,7 @@ struct ListingItemView: View {
                 VStack(alignment: .leading){
                     Text("Miami, Florida")
                         .fontWeight(.semibold)
+                        .foregroundStyle(.black)
                     Text("12 mi away")
                         .foregroundStyle(.gray)
                     Text("Nov 3 - 10")
@@ -44,8 +36,10 @@ struct ListingItemView: View {
                         Text("$567")
                             .fontWeight(.semibold)
                         Text("/night")
+                            
                         
                     }
+                    .foregroundStyle(.black)
                 }
                 
                 //ratings
@@ -54,6 +48,7 @@ struct ListingItemView: View {
                     Image(systemName: "star.fill")
                     Text("4.86")
                 }
+                .foregroundStyle(.black)
             }
             .font(.footnote)
             
