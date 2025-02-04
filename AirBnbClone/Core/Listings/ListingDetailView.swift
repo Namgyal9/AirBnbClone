@@ -6,12 +6,38 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ListingDetailView: View {
+    
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         ScrollView{
-            ListingImageCarouselView()
-                .frame(height: 320)
+            ZStack(alignment: .topLeading) {
+                ListingImageCarouselView()
+                    .frame(height: 320)
+                
+                //back button
+                
+                Button(){
+                    dismiss()
+                }
+                label:{
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.black)
+                        .background{
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 32, height: 32)
+                        }
+                        .padding(32)
+                        
+                        
+                    
+                }
+                
+            }
         
             // using tabstyle with .page automatically adds a padding. hence why the v stack is slightly below the carousel view. One way to tackle that is to apply .padding(.bottom, -10) to the carousel view.
                 
@@ -111,22 +137,125 @@ struct ListingDetailView: View {
             }
             .padding()
             
+            Divider()
             
+            // bedrooms view
+            VStack(alignment:.leading, spacing: 16){
+                Text("Where you'll sleep")
+                    .font(.headline)
+                
+                ScrollView(.horizontal, showsIndicators: false){
+                    HStack(spacing: 16){
+                        ForEach(1..<5, id: \.self){ number in
+                            VStack(alignment: .leading, spacing: 12){
+                                Image(systemName: "bed.double")
+                                Text("Bedroom \(number)")
+                                    .font(.footnote)
+                            }
+                            .padding(.leading)
+                            .frame(width: 132, height: 100, alignment: .leading)
+                            .overlay{
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(lineWidth: 1)
+                                    .foregroundStyle(Color(.systemGray4))
+                                    .shadow(color: .black.opacity(0.2), radius: 2)
+                                    
+                            }
+                        }
+                    }
+                    
+                }
+                
+            }
+            .padding()
             
+            Divider()
             
-                        
+            // listing amenities
+            VStack(alignment: .leading, spacing: 16){
+                Text("What this place offers")
+                    .font(.headline)
+                ForEach(0..<5, id: \.self){ feature in
+                    HStack{
+                        Image(systemName: "wifi")
+                            .frame(width: 32)
+                        Text("Wifi")
+                            .font(.footnote)
+                        Spacer()
+                    }
+                }
+            }
+            .padding()
             
+            Divider()
             
+            // Map View
             
-            
-            
-            
-            
+            VStack(alignment:.leading, spacing: 16){
+                
+                Text("Where you'll be")
+                    .font(.headline)
+                
+                Map()
+                    .frame(height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                
+                
+            }
+            .padding()
+
         }
-        
+        .ignoresSafeArea()
+        .padding(.bottom, 72)
+        .overlay(alignment:.bottom){
+            VStack{
+                Divider()
+                    .padding(.bottom)
+                HStack{
+                    VStack(alignment: .leading){
+                        Text("$500")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                        Text("Total before taxes")
+                            .font(.footnote)
+                        Text("Oct 15 - 20")
+                            .font(.footnote)
+                            .fontWeight(.semibold)
+                            .underline()
+                        
+                        
+                    }
+                    Spacer()
+                    
+                    Button(){
+                        //MARK: TODO
+                    }
+                    label:{
+                        Text("Reserve")
+                            .foregroundStyle(.white)
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .frame(width: 140, height: 40)
+                            .background(.pink)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                        
+                    }
+                }
+                .padding(.horizontal, 28)
+                
+                
+            }
+            .background(.white)
+        }
     }
 }
 
 #Preview {
     ListingDetailView()
 }
+
+
+
+// keep a consistent padding and alignment throughout the app or a screen
+// learn all the differnt text fonts and fontweights and how they look and etc...
+//have the modifier memorized that seem to do particular things. for exmaple the hiddesn label, ignoressafearea and .navigatoinbutton hidden

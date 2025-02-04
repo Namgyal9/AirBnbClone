@@ -28,7 +28,14 @@ struct ExploreView: View {
                 
             }
             .navigationDestination(for: Int.self){listing in
-                Text("listing view details")
+                ListingDetailView()
+                    .navigationBarBackButtonHidden()
+                    .toolbar(.hidden, for: .navigationBar)
+                
+                
+                    
+                    
+                    
             }
         }
     }
