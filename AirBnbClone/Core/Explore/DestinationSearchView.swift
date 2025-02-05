@@ -14,19 +14,45 @@ struct DestinationSearchView: View {
     @Binding var show: Bool
     @State private var destination = ""
     @State private var selectedOption: DestinationSearchOptions = .location
+    @State private var startDate = Date()
+    @State private var endDate = Date()
+    @State private var numGuests = 1
+    
+    
+    
+    
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 40){
-            // x button
-            Button{
-                withAnimation(.snappy){
-                    show.toggle()
+            
+            HStack{
+                // x button
+                Button{
+                    withAnimation(.snappy){
+                        show.toggle()
+                    }
                 }
-            }
-            label:{
-                Image(systemName: "xmark.circle")
-                    .imageScale(.large)
+                label:{
+                    Image(systemName: "xmark.circle")
+                        .imageScale(.large)
+                        .foregroundStyle(.black)
+                }
+                
+                Spacer()
+                
+                if !destination.isEmpty{
+                    Button("Clear"){
+                        destination = ""
+                        
+                    }
                     .foregroundStyle(.black)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    
+                }
+                
             }
+            
             
             VStack(alignment:.leading){
                 if selectedOption == .location{
@@ -54,14 +80,8 @@ struct DestinationSearchView: View {
                     CollapsedPickerView(title: "Where", description: "Add destination")
                 }
             }
-            
-            .padding()
+            .DestinationModifier()
             .frame(height: selectedOption == .location ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            // clipshape and overlay do similar job here ,but the distinction should be important
-            // clipshape crops anything outside the frame dimnesions, while overlay just puts a view // on top and doesn't remove.
-            .shadow(radius: 10)
             .onTapGesture {
                 withAnimation{selectedOption = .location}
                 
@@ -69,12 +89,20 @@ struct DestinationSearchView: View {
             
             // date selecton view
             
-            VStack{
+            VStack(alignment:.leading){
                 if selectedOption == .dates{
-                    HStack{
-                        Text("show expanded view")
-                        Spacer()
+                    Text("When's your trip?")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    VStack{
+                        DatePicker("From:", selection: $startDate, in: Date()...,  displayedComponents: .date)
+                        Divider()
+                        DatePicker("To:", selection: $endDate, in: Date()..., displayedComponents: .date)
                     }
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
                     
                 }
                 
@@ -83,11 +111,8 @@ struct DestinationSearchView: View {
                     
                 }
             }
-            .padding()
-            .frame(height: selectedOption == .dates ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 10)
+            .DestinationModifier()
+            .frame(height: selectedOption == .dates ? 180 : 64)
             .onTapGesture {
                 withAnimation{selectedOption = .dates}
                 
@@ -95,24 +120,29 @@ struct DestinationSearchView: View {
             
             
             // num guests view
-            VStack{
+            VStack(alignment:.leading){
                 if selectedOption == .guests{
-                    HStack{
-                        Text("show expanded view")
-                        Spacer()
+                    Group{
+                        Text("Who's coming?")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        
+                        
+                        Stepper(value: $numGuests,in: 1...50){
+                            Text("\(numGuests) Adults")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                        }
                     }
-                    
                 }
                 else{
                     CollapsedPickerView(title:"Who", description: "Add guests")
                 }
                 
+                
             }
-            .padding()
+            .DestinationModifier()
             .frame(height: selectedOption == .guests ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 10)
             .onTapGesture {
                 withAnimation{selectedOption = .guests}
             }
