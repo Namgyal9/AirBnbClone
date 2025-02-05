@@ -89,7 +89,7 @@ struct ListingDetailView: View {
                 Image("profilePic")
                     .resizable()
                     .scaledToFill()
-                // this modifier unlike scaledtofill results in image
+                // this modifier unlike scaledtofit results in image
                  //  going out of bound, so we have to clip it using .clipped()
                 // to clip it and get a shape do, .clipShape()
                     .frame(width: 64, height: 64)
