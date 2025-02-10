@@ -44,6 +44,7 @@ struct ExploreView: View {
                     ListingDetailView()
                         .navigationBarBackButtonHidden()
                         .toolbar(.hidden, for: .navigationBar)
+
                     
                     
                         

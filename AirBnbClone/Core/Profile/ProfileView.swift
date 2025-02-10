@@ -9,8 +9,9 @@ import SwiftUI
 
 struct ProfileView: View {
     var body: some View {
-        Spacer()
+        
         VStack{
+            Spacer()
             VStack(alignment: .leading, spacing: 32){
                 
                 VStack(alignment: .leading, spacing: 8){
@@ -31,11 +32,12 @@ struct ProfileView: View {
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundStyle(.white)
+                        .frame(maxWidth:.infinity, minHeight: 48)
+                        .background(.pink)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                         
                 }
-                .frame(maxWidth:.infinity, minHeight: 48)
-                .background(.pink)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                
                 
                 
                 HStack{
@@ -56,11 +58,11 @@ struct ProfileView: View {
                 FaqView(icon:"questionmark.circle", name: "Visit the Help Center")
             }
             .padding(.vertical)
+            Spacer()
             
         }
         .padding()
-        Spacer()
-    
+        
         
     }
 }
